@@ -1,0 +1,173 @@
+package com.pmovil.java;
+
+import java.util.Calendar;
+import java.sql.Date;
+import com.pmovil.java.Cuenta;
+import com.pmovil.java.Usuario;
+import java.util.ArrayList;
+
+class Banco{
+	int contador = 1;
+	long a=0;
+	static public long ra=0; 				//identificador para seleccion
+	static public String re=null;			//identificador para seleccion
+	
+	
+	ArrayList<Cuenta> clientes = new ArrayList<Cuenta>(); 	//Base de datos de cuentas
+
+	
+		public Banco(){	//Constructor 
+			
+			
+		}
+		
+		public void crearCuenta(long numeroCuenta, long cedula, double saldo){ //metodo para crear cuentas
+				Cuenta clientea = new Cuenta();
+				clientea.setnumero(numeroCuenta);
+				clientea.setsaldo(saldo);
+				clientea.setcedula(cedula);
+				clientes.add(contador, clientea);
+				contador+=1;
+		}
+		
+		public void  crearUsuario(String nombre, long cedula,Date birthdate){//metodo para crear usuarios
+				Cuenta cliente = new Cuenta();
+				cliente.setnombre(nombre);
+				cliente.setcedula(cedula);
+				cliente.setbirthdate(birthdate);
+				clientes.add(contador,cliente);
+				contador+=1;
+		}
+		
+		public Usuario getUsuarioByCedula(long numeroCedula){ //metodo para obtener usuario con la cedula
+			Cuenta as= new Cuenta();
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+				if (as.cedula==numeroCedula){
+				re=as.getnombre();
+				i=contador+1;
+				}else{
+					System.out.println("Buscando");
+				}
+			}
+			return as;
+		}
+		
+		public Usuario getUsuariobyCuenta(long numeroCuenta){	//metodo para obtener usuario con la cuenta
+			Cuenta as= new Cuenta();
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+				if (as.numero==numeroCuenta){
+				ra=as.getnumero();
+				i=contador+1;
+				}else{
+					System.out.println("Buscando");
+				}
+			}
+			return as;
+		}
+		
+		public Cuenta getCuentaByUsuario(long cedula){	//metodo para obtener cuenta con usuario
+			Cuenta as= new Cuenta();
+			int a=0;
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+			a=i;
+				if (as.cedula==cedula){
+				ra=as.getnumero();
+				i=contador+1;
+				}else{
+					System.out.println("Buscando");
+				}
+			}
+			return clientes.get(a);
+		}
+		
+		public Cuenta getCuentaByNumero(long numeroCuenta){	//Obtener la cuenta con el numero de cedula
+			Cuenta as= new Cuenta();
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+				if (as.cedula==numeroCuenta){
+				ra=as.getnumero();
+				i=contador+1;
+				}else{
+					System.out.println("Buscando");
+				}
+			}
+			return as;			
+	}
+		
+		public double getSaldo(long numeroCuenta){
+			Cuenta as= new Cuenta();
+			double sa=0;
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+				if (as.numero==numeroCuenta){
+				sa=as.getsaldo();
+				i=contador+1;
+				}else{
+					System.out.println("Buscando");
+				}
+			}
+			return sa;			
+		}
+		
+		public void consignacion(long numeroCuenta, double valor){
+			Cuenta as= new Cuenta();
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+				if (as.numero==numeroCuenta){
+					clientes.get(i).saldo=valor;					
+				}else{
+					System.out.println("Buscando");
+				}
+			}
+		}
+		
+		public void retiro(long numeroCuenta, double valor){
+			Cuenta as= new Cuenta();
+			double resta;
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+			resta=as.saldo-valor;
+				if (resta>0){
+					clientes.get(i).saldo=resta;					
+				}else{
+					System.out.println("Fondos insuficientes");
+				}
+			}	
+		}
+		
+		//public void traslado(long numeroCuentaOrigen, long numeroCuentaDestino, double valor){}
+		
+		/*public Date comparador(Date fecha){
+		
+		}*/
+		
+		public static void main(String[] args){
+			
+			int cas = 0;
+
+			
+			//ArrayList<Cuenta> clientes = new ArrayList<Cuenta>(); //Base de datos cuenta
+			//ArrayList<Usuario> users = new ArrayList<Usuario>(); //Base de datos clientes
+			
+			System.out.println("Bienvenido al banco");
+			System.out.println("Siga las indicaciones del menu");
+			
+			switch(cas){
+			
+			case 1:
+				
+			case 2:
+				
+			case 3:
+				
+			default:
+			
+			break;
+			
+			}
+			
+		}
+}
