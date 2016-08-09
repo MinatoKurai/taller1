@@ -1,0 +1,40 @@
+package com.pmovil.java;
+
+import com.pmovil.java.Usuario;
+
+class Cuenta extends Usuario{
+	
+	long numero;
+	Usuario usuario;
+	double saldo;
+
+	public Cuenta(){	//Constructor
+		long numero=0;
+		double saldo;
+	}
+	
+	public void setnumero(long numerocuenta){
+		this.numero=numerocuenta;
+	}
+	
+	public long getnumero(){
+		return this.numero;
+	}
+	
+	public void setsaldo(double numsaldo){
+		this.saldo=numsaldo;
+	}
+	
+	public double getsaldo(){
+		return this.saldo;
+	}
+	
+	public void setusuario(Usuario user){
+		this.usuario= user;
+	}
+	
+	public Usuario getuser(){
+		return this.usuario;
+	}
+
+}
