@@ -1,0 +1,36 @@
+package com.pmovil.java;
+
+import java.sql.Date;
+	
+	class Usuario {
+	
+		String nombre;
+		long cedula;
+		Date birthdate;
+		
+	public Usuario(){ //constructor
+		String nombre=null;
+		long cedula=0;
+	}	
+		
+	public void setnombre(String nom){
+		this.nombre=nom;
+	}
+
+	public String getnombre(){
+		return this.nombre;
+	}
+	
+	public void setcedula(long ced){
+		this.cedula=ced;
+	}
+
+	public long getcedula(){
+		return this.cedula;
+	}
+	
+	public void setbirthdate(Date birt){
+		this.birthdate=birt;
+	}
+	
+}
