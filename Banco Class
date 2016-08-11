@@ -1,0 +1,233 @@
+package com.pmovil.java;
+
+//import java.util.Calendar;
+import java.sql.Date;
+import java.util.Scanner;
+import com.pmovil.java.Cuenta;
+import com.pmovil.java.Usuario;
+import java.util.ArrayList;
+
+class Banco{
+	int contador = 1;						//Variable que permite identificar posiciones en un vector de clases tipo cuenta
+	long a=0;								//Varaible para el manejo de datos long
+	static public double ret=0;				//Variable para el flujo de efectivo de las cuentas
+	static public int posicion=0;			//Variable para trabajar con el vector de clases indexado
+	static public long ra=0; 				//Variable para manejar parametros tipo long
+	static public String re=null;			//Variable para manejar parametros tipo string
+	static public boolean flag1=false;		//Bandera para reconocer el exito de las consignaciones
+	static public boolean flag2=false;		//Bandera para reconocer el exito de lso retiros
+	
+	
+	ArrayList<Cuenta> clientes = new ArrayList<Cuenta>(); 	//Base de datos,vector tipo cuenta
+
+	
+		public Banco(){	//Constructor 
+			
+			
+		}
+		
+		public void crearCuenta(long numeroCuenta, long cedula, double saldo){ 		//metodo para crear cuentas
+				Cuenta clientea = new Cuenta();
+				clientea.setnumero(numeroCuenta);
+				clientea.setsaldo(saldo);
+				clientea.setcedula(cedula);
+				clientes.add(contador, clientea);
+				contador+=1;
+		}
+		
+		public void  crearUsuario(String nombre, long cedula,Date birthdate){		//metodo para crear usuarios
+				Cuenta cliente = new Cuenta();
+				cliente.setnombre(nombre);
+				cliente.setcedula(cedula);
+				cliente.setbirthdate(birthdate);
+				clientes.add(contador,cliente);
+				contador+=1;
+		}
+		
+		public Usuario getUsuarioByCedula(long numeroCedula){ 					//metodo para obtener usuario con la cedula
+			Cuenta as= new Cuenta();
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+				if (as.cedula==numeroCedula){
+				re=as.getnombre();
+				posicion=i;
+				i=contador+1;
+				}else{
+					System.out.println("Buscando");
+				}
+			}
+			return clientes.get(posicion).usuario;
+		}
+		
+		public Usuario getUsuariobyCuenta(long numeroCuenta){	//metodo para obtener usuario con la cuenta
+			Cuenta as= new Cuenta();
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+				if (as.numero==numeroCuenta){
+				ra=as.getnumero();
+				posicion=i;
+				i=contador+1;
+				}else{
+					System.out.println("Buscando");
+				}
+			}
+			return clientes.get(posicion).usuario;
+		}
+		
+		public Cuenta getCuentaByUsuario(long cedula){	//metodo para obtener cuenta con usuario
+			Cuenta as= new Cuenta();
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+				if (as.cedula==cedula){
+				ra=as.getnumero();
+				posicion=i;
+				i=contador+1;
+				}else{
+					System.out.println("Buscando");
+				}
+			}
+			return clientes.get(posicion);
+		}
+		
+		public Cuenta getCuentaByNumero(long numeroCuenta){	//Obtener la cuenta con el numero de cedula
+			Cuenta as= new Cuenta();
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+				if (as.cedula==numeroCuenta){
+				ra=as.getnumero();
+				posicion=i;
+				i=contador+1;
+				}else{
+					System.out.println("Buscando");
+				}
+			}
+			return clientes.get(posicion);			
+	}
+		
+		public double getSaldo(long numeroCuenta){
+			Cuenta as= new Cuenta();
+			double sa=0;
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+				if (as.numero==numeroCuenta){
+				sa=as.getsaldo();
+				i=contador+1;
+				}else{
+					System.out.println("Buscando");
+				}
+			}
+			return sa;			
+		}
+		
+		public void consignacion(long numeroCuenta, double valor){
+			Cuenta as= new Cuenta();
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+				if (as.numero==numeroCuenta){
+					clientes.get(i).saldo=valor;
+					flag1=true;
+				}else{
+					System.out.println("Buscando");
+					flag1=false;
+				}
+			}
+		}
+		
+		public void retiro(long numeroCuenta, double valor){
+			Cuenta as= new Cuenta();
+			double resta;
+			for (int i=1;i<=contador;i+=1){
+			as=clientes.get(i);
+			resta=as.saldo-valor;
+				if (resta>0){
+					clientes.get(i).saldo=resta;
+					ret = valor;
+					flag2=true;
+				}else{
+					System.out.println("Fondos insuficientes");
+					flag2=false;
+				}
+			}	
+		}
+		
+		public void traslado(long numeroCuentaOrigen, long numeroCuentaDestino, double valor){
+			retiro(numeroCuentaOrigen,valor);
+			if(flag1=true){
+			consignacion(numeroCuentaDestino,ret);
+			}
+			flag1=false;
+			flag2=false;
+		}
+		
+		public void shcuentas(){
+			for(int i=1;i<=contador;i++){
+				System.out.println(clientes.get(i).getnumero());
+				System.out.println(clientes.get(i).getnombre());
+			}
+		}
+		
+		/*public Date comparador(Date fecha){
+		
+		}*/
+		
+		public static void main(String[] args){
+			Scanner kb = new Scanner(System.in);
+			
+			Banco banco= new Banco();
+			int cas = 2;			//variable para opciones dle switch
+			long numCuenta;			//variable para los numeros de cuenta
+			long ced=0;				//Variable para los numeros de cedula
+			double sal=0;			//Variable para el control de saldos
+			String user=null;		//Variable para los diferentes nombres de usuarios
+
+			
+			System.out.println("Bienvenido al banco");
+			System.out.println("Siga las indicaciones del menu");
+			
+			while(cas!=14){
+			switch(cas){
+			
+				case 1: //imprimir los numeros de cuenta con los nombres (funcion de administrador necesario contraseña)
+				break;
+				case 2://crear cuentas
+					System.out.println("Ingrese el nùmero de cuenta");
+					numCuenta=kb.nextLong();
+					System.out.println("Ingrese el número de cedula");
+					ced=kb.nextLong();
+					System.out.println("Ingrese el saldo");
+					sal=kb.nextDouble();
+					banco.crearCuenta(numCuenta, ced, sal);
+				//break;
+				case 3://crear usuarios
+					break;				
+				case 4://modificar cuenta
+					break;					
+				case 5://modificar usuario
+					break;			
+				case 6://consultar usuario por cedula
+					break;
+				case 7://consultar usuario por cuenta
+					break;				
+				case 8://cosultar cuenta con nombre de usuario
+					break;					
+				case 9://Consultar cuenta por numero
+					break;					
+				case 10://Consultar saldo
+					break;					
+				case 11://Realizar consiganciones
+					break;					
+				case 12://Realizar retiros
+					break;					
+				case 13://Realizar translados entre cuentas
+					break;				
+				case 14://Salir de la sucursa virtual
+					break;			
+				default:
+					System.out.println("Esta opcion no esta disponible");
+				break;
+			
+			}//endswith
+			}//endwhile	
+
+		}//endmai
+}
